@@ -10,6 +10,7 @@ using EduSync.API.Services.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddControllers();
 
 // Configure DbContext
