@@ -110,4 +110,4 @@ stages:
                     "value": "$(AppInsightsKey)",
                     "slotSetting": false
                   }
-                ] 
+                ]
