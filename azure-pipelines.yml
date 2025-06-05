@@ -77,37 +77,17 @@ stages:
                   appName: '$(WebAppName)'
                   package: '$(Pipeline.Workspace)/drop/*.zip'
                   deploymentMethod: 'auto'
-              
-              - task: AzureWebAppConfiguration@1
+
+              - task: AzureCLI@2
                 displayName: 'Update App Service Configuration'
                 inputs:
                   azureSubscription: 'edusync-azure-connection'
-                  appName: '$(WebAppName)'
-                  configurationStrings: |
-                    [
-                      {
-                        "name": "ConnectionStrings__DefaultConnection",
-                        "value": "$(DatabaseConnectionString)",
-                        "slotSetting": false
-                      },
-                      {
-                        "name": "ASPNETCORE_ENVIRONMENT",
-                        "value": "Production",
-                        "slotSetting": false
-                      },
-                      {
-                        "name": "WEBSITE_RUN_FROM_PACKAGE",
-                        "value": "1",
-                        "slotSetting": false
-                      },
-                      {
-                        "name": "ApplicationInsights__InstrumentationKey",
-                        "value": "$(AppInsightsKey)",
-                        "slotSetting": false
-                      },
-                      {
-                        "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                        "value": "$(AppInsightsKey)",
-                        "slotSetting": false
-                      }
-                    ]
+                  scriptType: 'bash'
+                  scriptLocation: 'inlineScript'
+                  inlineScript: |
+                    az webapp config appsettings set --name $(WebAppName) --resource-group Edusync_Resources --settings \
+                      ConnectionStrings__DefaultConnection="$(DatabaseConnectionString)" \
+                      ASPNETCORE_ENVIRONMENT=Production \
+                      WEBSITE_RUN_FROM_PACKAGE=1 \
+                      ApplicationInsights__InstrumentationKey=$(AppInsightsKey) \
+                      APPINSIGHTS_INSTRUMENTATIONKEY=$(AppInsightsKey)
