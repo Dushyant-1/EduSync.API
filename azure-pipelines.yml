@@ -77,3 +77,37 @@ stages:
                   appName: '$(WebAppName)'
                   package: '$(Pipeline.Workspace)/drop/*.zip'
                   deploymentMethod: 'auto'
+              
+              - task: AzureWebAppConfiguration@1
+                displayName: 'Update App Service Configuration'
+                inputs:
+                  azureSubscription: 'edusync-azure-connection'
+                  appName: '$(WebAppName)'
+                  configurationStrings: |
+                    [
+                      {
+                        "name": "ConnectionStrings__DefaultConnection",
+                        "value": "$(DatabaseConnectionString)",
+                        "slotSetting": false
+                      },
+                      {
+                        "name": "ASPNETCORE_ENVIRONMENT",
+                        "value": "Production",
+                        "slotSetting": false
+                      },
+                      {
+                        "name": "WEBSITE_RUN_FROM_PACKAGE",
+                        "value": "1",
+                        "slotSetting": false
+                      },
+                      {
+                        "name": "ApplicationInsights__InstrumentationKey",
+                        "value": "$(AppInsightsKey)",
+                        "slotSetting": false
+                      },
+                      {
+                        "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                        "value": "$(AppInsightsKey)",
+                        "slotSetting": false
+                      }
+                    ]
