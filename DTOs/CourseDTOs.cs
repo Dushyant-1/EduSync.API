@@ -10,6 +10,8 @@ namespace EduSync.API.DTOs
         public string? InstructorName { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsActive { get; set; }
+        public int? Duration { get; set; }
+        public string? Level { get; set; }
     }
 
     public class CreateCourseDto

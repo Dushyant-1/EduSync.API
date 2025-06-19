@@ -48,7 +48,7 @@ namespace EduSync.API.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Instructor")]
-        public async Task<ActionResult<CourseDto>> CreateCourse(CreateCourseDto dto)
+        public async Task<ActionResult<CourseDto>> CreateCourse([FromForm] CreateCourseDto dto)
         {
             try
             {

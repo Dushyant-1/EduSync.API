@@ -19,6 +19,9 @@ namespace EduSync.API.Models
         public DateTime? UpdatedAt { get; set; }
         public bool IsActive { get; set; }
 
+        public int? Duration { get; set; }
+        public string? Level { get; set; }
+
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
         public ICollection<Assessment> Assessments { get; set; } = new List<Assessment>();
     }

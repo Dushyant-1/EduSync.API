@@ -22,6 +22,7 @@ namespace EduSync.API.Services
         {
             return await _context.Courses
                 .Where(c => c.IsActive)
+                .Include(c => c.Instructor)
                 .Select(c => new CourseDto
                 {
                     Id = c.Id,
@@ -29,7 +30,9 @@ namespace EduSync.API.Services
                     Description = c.Description,
                     InstructorName = $"{c.Instructor.FirstName} {c.Instructor.LastName}",
                     CreatedAt = c.CreatedAt,
-                    IsActive = c.IsActive
+                    IsActive = c.IsActive,
+                    Duration = c.Duration,
+                    Level = c.Level
                 })
                 .ToListAsync();
         }

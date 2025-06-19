@@ -4,6 +4,7 @@ using System.Security.Claims;
 using EduSync.API.Data;
 using EduSync.API.Models;
 using Microsoft.EntityFrameworkCore;
+using EduSync.API.DTOs;
 
 namespace EduSync.API.Controllers
 {
@@ -62,7 +63,7 @@ namespace EduSync.API.Controllers
         }
 
         [HttpGet("student")]
-        public async Task<ActionResult<IEnumerable<Course>>> GetEnrolledCourses()
+        public async Task<ActionResult<IEnumerable<CourseDto>>> GetEnrolledCourses()
         {
             var studentIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
             if (studentIdClaim == null || !int.TryParse(studentIdClaim.Value, out int studentId))
@@ -73,7 +74,18 @@ namespace EduSync.API.Controllers
             var enrolledCourses = await _context.Enrollments
                 .Where(e => e.StudentId == studentId)
                 .Include(e => e.Course)
-                .Select(e => e.Course)
+                    .ThenInclude(c => c.Instructor)
+                .Select(e => new CourseDto
+                {
+                    Id = e.Course.Id,
+                    Title = e.Course.Title,
+                    Description = e.Course.Description,
+                    InstructorName = $"{e.Course.Instructor.FirstName} {e.Course.Instructor.LastName}",
+                    CreatedAt = e.Course.CreatedAt,
+                    IsActive = e.Course.IsActive,
+                    Duration = e.Course.Duration,
+                    Level = e.Course.Level
+                })
                 .ToListAsync();
 
             return Ok(enrolledCourses);

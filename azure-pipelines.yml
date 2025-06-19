@@ -5,6 +5,7 @@ trigger:
   paths:
     include:
       - backend/**
+      - backend/**/*   # ensures even nested folder changes trigger the build
 
 variables:
 - group: edusync-variables
