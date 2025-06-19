@@ -12,7 +12,7 @@ variables:
 - name: buildConfiguration
   value: 'Release'
 - name: buildPlatform
-  value: 'Any CPU'
+  value: 'Any CPU' # ensures the build is platform-agnostic
 
 stages:
 - stage: Build
