@@ -107,8 +107,8 @@ builder.Services.AddSwaggerGen(c =>
 // Configure CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", builder =>
-        builder.AllowAnyOrigin()
+    options.AddPolicy("AllowFrontend", builder =>
+        builder.WithOrigins("https://calm-bush-0325b2b0f.6.azurestaticapps.net")
                .AllowAnyMethod()
                .AllowAnyHeader());
 });
@@ -124,7 +124,7 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseHttpsRedirection();
-app.UseCors("AllowAll");
+app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
